@@ -7,7 +7,7 @@ import { Spacer } from '../../components/spacer/spacer.component';
 
 import { ActivityIndicator, Colors } from 'react-native-paper';
 
-import { AuthContext } from '../../services/auth.context';
+import { AuthContext } from '../../services/auth/auth.context';
 
 const SafeArea = styled(SafeAreaView)`
     flex:.8;
@@ -32,8 +32,8 @@ const InputView = styled(View)`
 
 export const LoginScreen = () => {
 
-    const [email, setEmail] = useState('rawscripterx@gmail.com');
-    const [password, setPassword] = useState('password');
+    const [email, setEmail] = useState('admin@gmail.com');
+    const [password, setPassword] = useState('12345678');
     const { onLogin, isLoading, error } = useContext(AuthContext);
 
     const handleLogin = () => {

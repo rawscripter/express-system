@@ -1,5 +1,5 @@
 import React, { useState, createContext } from 'react';
-import { loginRequest } from './auth.service';
+import { loginRequest } from '../auth/auth.service';
 
 export const AuthContext = createContext();
 
@@ -18,9 +18,12 @@ export const AuthContextProvider = ({ children }) => {
         setError(null);
         loginRequest(email, password)
             .then(response => {
+
+                setToken(response.data.token);
+                setUser(response.data.user);
+
                 setIsAuthenticated(true);
-                setUser(response.user);
-                setToken(response.token);
+                // console.log(response.user);
                 setIsLoading(false);
             })
             .catch(error => {

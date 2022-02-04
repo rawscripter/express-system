@@ -5,7 +5,7 @@ import { Text } from '../../components/typography/text.component';
 import { Button, Colors } from 'react-native-paper';
 import { Spacer } from '../../components/spacer/spacer.component';
 import { qoutes } from '../quotes/quotes';
-import { AuthContext } from '../../services/auth.context';
+import { AuthContext } from '../../services/auth/auth.context';
 
 const SafeContainer = styled(SafeAreaView)`
        flex:1;
