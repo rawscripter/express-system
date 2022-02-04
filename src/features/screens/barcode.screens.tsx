@@ -5,8 +5,6 @@ import { Button } from 'react-native-paper';
 import { Searchbar } from 'react-native-paper';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Spacer } from '../../components/spacer/spacer.component';
-import { ProductContext } from '../../services/products/product.context';
-import { ActivityIndicator, Colors } from 'react-native-paper';
 
 
 const SafeContainer = styled(SafeAreaView)`
@@ -47,6 +45,11 @@ const RoundedBox = styled(View)`
             align-items:center;
             border-radius:10px;
 `;
+const LoadingView = styled(View)`
+            flex:1; 
+            justify-content:center;
+            align-items:center;
+`;
 
 
 export const BarcodeScreen = ({ navigation }) => {
@@ -54,11 +57,12 @@ export const BarcodeScreen = ({ navigation }) => {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
     const [openCamera, setOpenCamera] = useState(false);
-    const { isLoading, onSearch, error } = useContext(ProductContext);
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const onChangeSearch = query => setSearchQuery(query);
+
 
     const searchBarcodeQuery = () => {
-        // console.log(onSearch);
-        onSearch(searchQuery);
+        navigation.navigate('ProductDetails', { barcode: searchQuery });
     }
 
     useEffect(() => {
@@ -68,40 +72,13 @@ export const BarcodeScreen = ({ navigation }) => {
         })();
     }, []);
 
-    useEffect(() => {
-        if (error) {
-            alert(error)
-        }
-    }, [error])
 
 
-    const [searchQuery, setSearchQuery] = React.useState('');
-
-    const onChangeSearch = query => setSearchQuery(query);
 
     const handleBarCodeScanned = ({ type, data }) => {
         setOpenCamera(false);
-        navigation.navigate('ProductDetails');
+        navigation.navigate('ProductDetails', { barcode: data });
     };
-
-    // if (hasPermission === null) {
-    //     return <Text>Requesting for camera permission</Text>;
-    // }
-    // if (hasPermission === false) {
-    //     return <Text>No access to camera</Text>;
-    // }
-
-    if (isLoading) {
-        return (
-            <ButtonView>
-                <ActivityIndicator size="large" animating={true} color="tomato" />
-            </ButtonView>
-
-        );
-    }
-
-
-
 
     return (
         <>

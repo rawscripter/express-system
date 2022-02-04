@@ -10,7 +10,7 @@ export const ProductContextProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     const onSearch = (barcode) => {
-        console.log(barcode);
+
         setIsLoading(true);
         setError(null);
         fetchProduct(barcode)
@@ -23,13 +23,17 @@ export const ProductContextProvider = ({ children }) => {
                 setIsLoading(false);
             });
     };
+    const resetProduct = () => {
+        setProduct({});
+    }
 
     return (
         <ProductContext.Provider value={{
             product,
             isLoading,
             error,
-            onSearch
+            onSearch,
+            resetProduct
         }}>
             {children}
         </ProductContext.Provider>

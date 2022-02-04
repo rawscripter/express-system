@@ -3,9 +3,15 @@ import { StatusBar, View, SafeAreaView, TouchableOpacity } from "react-native";
 import styled from 'styled-components/native';
 import { Text } from '../../components/typography/text.component';
 import { Button, Colors } from 'react-native-paper';
+import { Alert } from 'react-native';
 import { Spacer } from '../../components/spacer/spacer.component';
 import { qoutes } from '../quotes/quotes';
 import { AuthContext } from '../../services/auth/auth.context';
+import { ClockInOutContext } from '../../services/clock/clock.context';
+import { ActivityIndicator } from 'react-native-paper';
+import Moment from 'moment';
+
+
 
 const SafeContainer = styled(SafeAreaView)`
        flex:1;
@@ -61,6 +67,12 @@ const OfficeTimingView = styled(View)`
             align-items:center;
             text-align:center;
     `
+const LoadingView = styled(View)`
+            flex:1;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+    `
 
 export const HomeScreen = () => {
     const [greeting, setGreeting] = useState("");
@@ -68,21 +80,24 @@ export const HomeScreen = () => {
 
 
     const { user } = useContext(AuthContext);
+    const { isLoading,
+        isClockIn,
+        onClockIn,
+        onClockOut,
+        officeInTime,
+        officeOutTime,
+        isClockOut
+    } = useContext(ClockInOutContext);
 
     // generate some motivational speech
     useEffect(() => {
         const randomNumber = Math.floor(Math.random() * qoutes.length);
         setQuoteOfTheDay(qoutes[randomNumber]);
     }, []);
-
-
     const changeQuote = () => {
         const randomNumber = Math.floor(Math.random() * qoutes.length);
         setQuoteOfTheDay(qoutes[randomNumber]);
     }
-
-    const [isOfficeIn, setIsOfficeIn] = useState(false);
-
     useEffect(() => {
         const interval = setInterval(() => {
             const date = new Date();
@@ -100,7 +115,26 @@ export const HomeScreen = () => {
     }, []);
 
 
+    const submitClockInOut = () => {
+        if (!isClockIn) {
+            onClockIn();
+        } else {
+            createTwoButtonAlert();
+        }
+    }
 
+    const createTwoButtonAlert = () =>
+        Alert.alert(
+            "Warning!",
+            "Are you sure you want to clock out?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => onClockOut() }
+            ]
+        );
     return (
         <>
             <SafeContainer >
@@ -117,30 +151,39 @@ export const HomeScreen = () => {
                     <Spacer size="large" />
                 </GreetingView>
 
-                {isOfficeIn &&
+                {isClockIn &&
                     <OfficeTimingView>
-                        <Text>Today's Office In Time : 10:21 AM</Text>
+                        {/* show Hour:min AM with moment js */}
+
+                        <Text>Today's Office In Time :   {Moment(officeInTime).format("h:mm A")} </Text>
                         <Spacer size="small" />
-                        <Text variant="body">Pending Tasks : 2</Text>
+                        {isClockOut && <Text>Today's Office Out Time :  {Moment(officeOutTime).format("h:mm A")}  </Text>}
                     </OfficeTimingView>
                 }
 
-                <SignInView>
-                    <TouchableOpacity
-                        onPress={() => {
-                            //show alert
+                {isLoading ? (
+                    <LoadingView>
+                        <ActivityIndicator size="large" animating={true} color={Colors.orange800} />
+                    </LoadingView>
+                ) : (
+                    <SignInView>
+                        <TouchableOpacity
+                            onPress={submitClockInOut}
+                        >
+                            <SignInButton
+                                style={{
+                                    backgroundColor: !isClockIn ? Colors.white : Colors.red400,
+                                    borderColor: !isClockIn ? Colors.white : Colors.red400,
+                                }}
+                                mode="text" color={!isClockIn ? '#000' : '#fff'}
+                            >
+                                {isClockIn ? 'Office Out' : 'Office In'}
+                            </SignInButton>
+                        </TouchableOpacity>
+                    </SignInView>
+                )
+                }
 
-                            setIsOfficeIn(!isOfficeIn);
-                        }}
-                    >
-                        <SignInButton style={{
-                            backgroundColor: !isOfficeIn ? Colors.white : Colors.red400,
-                            borderColor: !isOfficeIn ? Colors.white : Colors.red400,
-                        }} mode="text" color={!isOfficeIn ? '#000' : '#fff'}>
-                            {isOfficeIn ? 'Office Out' : 'Office In'}
-                        </SignInButton>
-                    </TouchableOpacity>
-                </SignInView>
                 {/* <StatusBar animated={true} barStyle="light-content" /> */}
             </SafeContainer>
         </>

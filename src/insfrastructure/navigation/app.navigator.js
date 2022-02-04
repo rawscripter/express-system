@@ -27,7 +27,6 @@ export const AppNavigator = () => {
     return (
         <NavigationContainer >
             <Tab.Navigator screenOptions={screenOptions}>
-
                 <Tab.Screen
                     options={{
                         headerShown: false,
@@ -35,6 +34,7 @@ export const AppNavigator = () => {
                     name="Home"
                     component={HomeScreen}
                 />
+
                 <Tab.Screen
                     options={{
                         headerShown: false,
@@ -42,7 +42,6 @@ export const AppNavigator = () => {
                     name="Barcode"
                     component={BarcodeNavigator}
                 />
-
             </Tab.Navigator>
         </NavigationContainer>
     )

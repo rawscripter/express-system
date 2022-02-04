@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/spacer/spacer.component';
 import { SafeAreaView, View } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { Text } from '../../components/typography/text.component';
-import { useNavigation } from '@react-navigation/native'
-
+import { useNavigation, useNavigationParam } from '@react-navigation/native'
+import { ProductContext } from '../../services/products/product.context';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 
 
 const SafeContainer = styled(SafeAreaView)`
@@ -29,21 +30,51 @@ const Section = styled.View`
     align-items: center;
 `;
 
-export const ProductDetailsScreen = ({ product = {}, }) => {
+const LoadingView = styled(View)`
+    flex:1;
+    justify-content:center;
+    align-items:center;
+`;
+
+
+export const ProductDetailsScreen = ({ route }) => {
+
     const navigation = useNavigation()
+    const { barcode } = route.params;
+    const { product, onSearch, isLoading, resetProduct, error } = useContext(ProductContext);
+
+    useEffect(() => {
+        resetProduct();
+        onSearch(barcode);
+    }, [])
 
     const {
-        name = 'C-Arm Philips BV-29',
-        price = '8000 USD',
-        image = 'https://www.express-systems.net/storage/systems/2FWZvjl8vJ6fgZ7GmyiwsBityB2FGQbyTZJnHpLF.jpg',
-        inStock = true,
-        menufacturer = 'Toshiba',
-        model = 'Toshiba',
-        dateOfManufacture = '01/01/1970',
-        systemNumber = '123456789',
-        modality = 'C-Arm',
+        name,
+        price,
+        image,
+        inStock,
+        menufacturer,
+        model,
+        dateOfManufacture,
+        systemNumber,
+        modality,
     } = product;
 
+    if (isLoading) {
+        return (
+            <LoadingView>
+                <ActivityIndicator size="large" animating={true} color={Colors.orange800} />
+            </LoadingView>
+        );
+    }
+
+    if (error) {
+        return (
+            <LoadingView>
+                <Text varient="body">{error}</Text>
+            </LoadingView>
+        );
+    }
 
     return (
         <>
@@ -67,41 +98,41 @@ export const ProductDetailsScreen = ({ product = {}, }) => {
                     <ProductContent>
                         <Section>
                             <Text>Availability</Text>
-                            <Text>In Stock</Text>
+                            <Text>{inStock ? 'In Stock' : 'Sold'}</Text>
                         </Section>
                     </ProductContent>
                     <ProductContent>
                         <Section>
                             <Text>Model</Text>
-                            <Text>{model}</Text>
+                            <Text>{model || '-'}</Text>
                         </Section>
                     </ProductContent>
 
                     <ProductContent>
                         <Section>
                             <Text>Serial Number</Text>
-                            <Text>{systemNumber}</Text>
+                            <Text>{systemNumber || '-'}</Text>
                         </Section>
                     </ProductContent>
 
                     <ProductContent>
                         <Section>
                             <Text>Modality</Text>
-                            <Text>{modality}</Text>
+                            <Text>{modality || '-'}</Text>
                         </Section>
                     </ProductContent>
 
                     <ProductContent>
                         <Section>
                             <Text>Manufacturer</Text>
-                            <Text>{menufacturer}</Text>
+                            <Text>{menufacturer || '-'}</Text>
                         </Section>
                     </ProductContent>
 
                     <ProductContent>
                         <Section>
                             <Text>Date of menufactur</Text>
-                            <Text>{dateOfManufacture}</Text>
+                            <Text>{dateOfManufacture || '-'}</Text>
                         </Section>
                     </ProductContent>
 

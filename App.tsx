@@ -8,6 +8,9 @@ import { Navigation } from './src/insfrastructure/navigation';
 import { LoginScreen } from './src/features/screens/login.screens';
 import { AuthContextProvider } from './src/services/auth/auth.context';
 import { ProductContextProvider } from './src/services/products/product.context';
+import { ClockInOutContextProvider } from './src/services/clock/clock.context';
+
+
 export default function App() {
   const [latoLoaded] = useOswald({
     Lato_400Regular,
@@ -25,8 +28,10 @@ export default function App() {
       <ThemeProvider theme={theme} >
         <AuthContextProvider>
           <ProductContextProvider>
-            <Navigation />
-            <ExpoStatusBar style="auto" />
+            <ClockInOutContextProvider>
+              <Navigation />
+              <ExpoStatusBar style="auto" />
+            </ClockInOutContextProvider>
           </ProductContextProvider>
         </AuthContextProvider>
       </ThemeProvider>
