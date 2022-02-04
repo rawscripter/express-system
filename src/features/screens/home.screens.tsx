@@ -34,19 +34,19 @@ const SignInButton = styled(Button)`
 `;
 
 const GreetingView = styled(View)`
-            flex:.3;
+            flex:.4;
             justify-content:center;
             align-items:center;
-            padding: 20px;
+            padding: 22px;
             text-align:center;
     `
 const GreetingTitle = styled(Text)`
-            font-size:25px;
+            font-size:27px;
             font-weight:bold;
             color: #000;
 `
 const TimeView = styled(View)`
-            flex:.1;
+            flex:.3;
             justify-content:center;
             align-items:center;
 `
@@ -56,7 +56,7 @@ const QuoteView = styled(View)`
             text-align:center;
             `
 const QuoteText = styled(Text)`
-            font-size:13px;
+            font-size:15px;
             font-weight:bold;
             color: #000;
             text-align:center;
@@ -73,6 +73,12 @@ const LoadingView = styled(View)`
             align-items:center;
             text-align:center;
     `
+const ClockInOutSuccessText = styled(Text)`
+            font-size:16px;
+            font-weight:bold;
+            color: ${Colors.grey500};
+            text-align:center;
+`
 
 export const HomeScreen = () => {
     const [greeting, setGreeting] = useState("");
@@ -86,7 +92,8 @@ export const HomeScreen = () => {
         onClockOut,
         officeInTime,
         officeOutTime,
-        isClockOut
+        isClockOut,
+        officeHours
     } = useContext(ClockInOutContext);
 
     // generate some motivational speech
@@ -135,6 +142,9 @@ export const HomeScreen = () => {
                 { text: "OK", onPress: () => onClockOut() }
             ]
         );
+
+
+
     return (
         <>
             <SafeContainer >
@@ -160,28 +170,36 @@ export const HomeScreen = () => {
                         {isClockOut && <Text>Today's Office Out Time :  {Moment(officeOutTime).format("h:mm A")}  </Text>}
                     </OfficeTimingView>
                 }
-
                 {isLoading ? (
                     <LoadingView>
                         <ActivityIndicator size="large" animating={true} color={Colors.orange800} />
                     </LoadingView>
                 ) : (
-                    <SignInView>
-                        <TouchableOpacity
-                            onPress={submitClockInOut}
-                        >
-                            <SignInButton
-                                style={{
-                                    backgroundColor: !isClockIn ? Colors.white : Colors.red400,
-                                    borderColor: !isClockIn ? Colors.white : Colors.red400,
-                                }}
-                                mode="text" color={!isClockIn ? '#000' : '#fff'}
+
+                    (isClockIn && isClockOut) ? (
+                        <SignInView>
+                            <View>
+                                <ClockInOutSuccessText variant="body">Thanks For Being A Part Of Express Family</ClockInOutSuccessText>
+                            </View>
+                        </SignInView>
+
+                    ) : (
+                        <SignInView>
+                            <TouchableOpacity
+                                onPress={submitClockInOut}
                             >
-                                {isClockIn ? 'Office Out' : 'Office In'}
-                            </SignInButton>
-                        </TouchableOpacity>
-                    </SignInView>
-                )
+                                <SignInButton
+                                    style={{
+                                        backgroundColor: !isClockIn ? Colors.white : Colors.red400,
+                                        borderColor: !isClockIn ? Colors.white : Colors.red400,
+                                    }}
+                                    mode="text" color={!isClockIn ? '#000' : '#fff'}
+                                >
+                                    {isClockIn ? 'Office Out' : 'Office In'}
+                                </SignInButton>
+                            </TouchableOpacity>
+                        </SignInView>
+                    ))
                 }
 
                 {/* <StatusBar animated={true} barStyle="light-content" /> */}

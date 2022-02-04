@@ -1,12 +1,13 @@
 import React, { useState, createContext, useEffect } from 'react';
 import { loginRequest } from '../auth/auth.service';
 export const AuthContext = createContext();
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
 export const AuthContextProvider = ({ children }) => {
 
-    const [isAuthenticated, setIsAuthenticated] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -41,6 +42,17 @@ export const AuthContextProvider = ({ children }) => {
         }
     }
 
+    const onLogout = async () => {
+        try {
+            await AsyncStorage.removeItem('token');
+            setToken("");
+            setIsAuthenticated(false);
+        } catch (e) {
+            setError(e);
+        }
+    };
+
+
 
     return (
         <AuthContext.Provider value={{
@@ -48,7 +60,8 @@ export const AuthContextProvider = ({ children }) => {
             user,
             isLoading,
             error,
-            onLogin
+            onLogin,
+            onLogout
         }}>
             {children}
         </AuthContext.Provider>

@@ -5,11 +5,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { BarcodeNavigator } from './barcode.navigator';
 import { LoginScreen } from '../../features/screens/login.screens';
+import { SettingsScreen } from '../../features/screens/settings.sreens';
 
 const Tab = createBottomTabNavigator();
 const TAB_ICON = {
     Home: 'md-home',
     Barcode: 'md-camera',
+    Settings: 'md-settings',
 }
 
 const screenOptions = ({ route }) => {
@@ -41,6 +43,13 @@ export const AppNavigator = () => {
                     }}
                     name="Barcode"
                     component={BarcodeNavigator}
+                />
+                <Tab.Screen
+                    options={{
+                        headerShown: false,
+                    }}
+                    name="Settings"
+                    component={SettingsScreen}
                 />
             </Tab.Navigator>
         </NavigationContainer>

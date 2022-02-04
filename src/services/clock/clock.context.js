@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react';
 import { todaysClockStatus, storeClockIn, storeClockOut } from './clock.service';
-
+import moment from 'moment';
 export const ClockInOutContext = createContext();
 
 export const ClockInOutContextProvider = ({ children }) => {
@@ -12,6 +12,7 @@ export const ClockInOutContextProvider = ({ children }) => {
     const [isClockOut, setIsClockOut] = useState(false);
     const [officeInTime, setOfficeInTime] = useState("");
     const [officeOutTime, setOfficeOutTime] = useState("");
+    const [officeHours, setOfficeHours] = useState(0);
 
     useEffect(() => {
         if (clockInOut.clockIn) {
@@ -26,13 +27,32 @@ export const ClockInOutContextProvider = ({ children }) => {
 
 
 
+    // useEffect(() => {
+    //     let inTime = Date.parse(officeInTime.replace(/-/g, '/'));
+    //     let outTime = Date.parse(moment(new Date()).utc().utcOffset("-05:00").format("YYYY-MM-DD HH:mm:ss").replace(/-/g, '/'));
+    //     if (isClockOut) {
+    //         outTime = Date.parse(officeOutTime.replace(/-/g, '/'));
+    //     }
+    //     let diff = outTime - inTime;
+    //     let hours = Math.floor(diff / (1000 * 60 * 60));
+    //     let minutes = Math.floor((diff / (1000 * 60)) % 60);
+    //     let seconds = Math.floor((diff / 1000) % 60);
+    //     setOfficeHours(hours + ":" + minutes + ":" + seconds);
+
+    // }, [])
+
+
+
+
+
+
+
     const onClockIn = () => {
         setIsLoading(true);
         setError(null);
         storeClockIn()
             .then(response => {
                 setClockInOut(response.data.data);
-                console.log(response.data.data);
                 setIsLoading(false);
                 setIsClockIn(true);
                 setIsClockOut(false);
@@ -89,7 +109,8 @@ export const ClockInOutContextProvider = ({ children }) => {
             isClockIn,
             isClockOut,
             officeInTime,
-            officeOutTime
+            officeOutTime,
+            officeHours
         }}>
             {children}
         </ClockInOutContext.Provider>
