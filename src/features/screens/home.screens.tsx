@@ -45,11 +45,6 @@ const GreetingTitle = styled(Text)`
             font-weight:bold;
             color: #000;
 `
-const TimeView = styled(View)`
-            flex:.3;
-            justify-content:center;
-            align-items:center;
-`
 
 const QuoteView = styled(View)`
             max-width:300px;
@@ -93,11 +88,13 @@ export const HomeScreen = () => {
         officeInTime,
         officeOutTime,
         isClockOut,
-        officeHours
+        officeHours,
+        checkInOut
     } = useContext(ClockInOutContext);
 
     // generate some motivational speech
     useEffect(() => {
+        checkInOut();
         const randomNumber = Math.floor(Math.random() * qoutes.length);
         setQuoteOfTheDay(qoutes[randomNumber]);
     }, []);
@@ -143,6 +140,15 @@ export const HomeScreen = () => {
             ]
         );
 
+    const convertTimeToCurrentTimezone = (time) => {
+
+        //  console.log(time);
+        var testDateUtc = Moment.utc(time);
+        var localDate = testDateUtc.local();
+        // reutrn time into local timezone AM/PM
+        return localDate.format("h:mm A");
+
+    }
 
 
     return (
@@ -165,9 +171,9 @@ export const HomeScreen = () => {
                     <OfficeTimingView>
                         {/* show Hour:min AM with moment js */}
 
-                        <Text>Today's Office In Time :   {Moment(officeInTime).format("h:mm A")} </Text>
+                        <Text>Today's Office In Time :   {convertTimeToCurrentTimezone(officeInTime)} </Text>
                         <Spacer size="small" />
-                        {isClockOut && <Text>Today's Office Out Time :  {Moment(officeOutTime).format("h:mm A")}  </Text>}
+                        {isClockOut && <Text>Today's Office Out Time :  {convertTimeToCurrentTimezone(officeOutTime)}  </Text>}
                     </OfficeTimingView>
                 }
                 {isLoading ? (

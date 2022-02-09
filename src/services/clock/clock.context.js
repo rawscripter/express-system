@@ -60,7 +60,6 @@ export const ClockInOutContextProvider = ({ children }) => {
             .then(response => {
                 setClockInOut(response.data.data);
                 setIsLoading(false);
-                // setIsClockIn(false);
                 setIsClockOut(true);
             })
             .catch(error => {
@@ -68,9 +67,6 @@ export const ClockInOutContextProvider = ({ children }) => {
                 setIsLoading(false);
             });
     };
-
-
-
 
 
     const checkInOut = async () => {
@@ -87,9 +83,6 @@ export const ClockInOutContextProvider = ({ children }) => {
             });
     };
 
-    useEffect(() => {
-        checkInOut();
-    }, []);
     return (
         <ClockInOutContext.Provider value={{
             clockInOut,
@@ -101,7 +94,8 @@ export const ClockInOutContextProvider = ({ children }) => {
             isClockOut,
             officeInTime,
             officeOutTime,
-            officeHours
+            officeHours,
+            checkInOut
         }}>
             {children}
         </ClockInOutContext.Provider>

@@ -10,6 +10,11 @@ export const AuthContextProvider = ({ children }) => {
     const [token, setToken] = useState("");
 
     const onLogin = async (email, password) => {
+        if (!email || !password) {
+            setError("Please enter email and password");
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
         loginRequest(email, password)
