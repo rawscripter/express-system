@@ -32,8 +32,8 @@ const InputView = styled(View)`
 
 export const LoginScreen = () => {
 
-    const [email, setEmail] = useState('admin@gmail.com');
-    const [password, setPassword] = useState('12345678');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const { onLogin, isLoading, error } = useContext(AuthContext);
 
     const handleLogin = () => {

@@ -5,7 +5,7 @@ export const todaysClockStatus = async (barcode) => {
     const token = await AsyncStorage.getItem('token');
     return new Promise((resolve, reject) => {
         //send fetch request to server
-        fetch('http://127.0.0.1:8000/api/me/today/clock-status',
+        fetch('https://www.express-systems.net/api/me/today/clock-status',
             {
                 method: 'GET',
                 headers: {
@@ -33,7 +33,7 @@ export const storeClockIn = async (barcode) => {
     const token = await AsyncStorage.getItem('token');
     return new Promise((resolve, reject) => {
         //send fetch request to server
-        fetch('http://127.0.0.1:8000/api/me/today/clock-in',
+        fetch('https://www.express-systems.net/api/me/today/clock-in',
             {
                 method: 'POST',
                 headers: {
@@ -60,7 +60,7 @@ export const storeClockOut = async (barcode) => {
     const token = await AsyncStorage.getItem('token');
     return new Promise((resolve, reject) => {
         //send fetch request to server
-        fetch('http://127.0.0.1:8000/api/me/today/clock-out',
+        fetch('https://www.express-systems.net/api/me/today/clock-out',
             {
                 method: 'POST',
                 headers: {

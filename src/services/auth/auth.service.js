@@ -1,9 +1,10 @@
 export const loginRequest = ({ email, password }) => {
     return new Promise((resolve, reject) => {
         //send fetch request to server
-        fetch('http://127.0.0.1:8000/api/login', {
+        fetch('https://www.express-systems.net/api/login', {
             method: 'POST',
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -20,7 +21,6 @@ export const loginRequest = ({ email, password }) => {
                 }
             })
             .catch(error => {
-                console.log(error);
                 reject("Something went wrong. Please try again later.");
             }
             )

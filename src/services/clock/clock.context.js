@@ -24,9 +24,7 @@ export const ClockInOutContextProvider = ({ children }) => {
             setOfficeOutTime(clockInOut.clockOut)
         }
     }, [clockInOut])
-
-
-
+    // TODO: COUNT OFFICE HOURS
     // useEffect(() => {
     //     let inTime = Date.parse(officeInTime.replace(/-/g, '/'));
     //     let outTime = Date.parse(moment(new Date()).utc().utcOffset("-05:00").format("YYYY-MM-DD HH:mm:ss").replace(/-/g, '/'));
@@ -39,14 +37,7 @@ export const ClockInOutContextProvider = ({ children }) => {
     //     let seconds = Math.floor((diff / 1000) % 60);
     //     setOfficeHours(hours + ":" + minutes + ":" + seconds);
 
-    // }, [])
-
-
-
-
-
-
-
+    // }, []) 
     const onClockIn = () => {
         setIsLoading(true);
         setError(null);

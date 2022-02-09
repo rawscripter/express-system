@@ -2,12 +2,8 @@ import React, { useState, createContext, useEffect } from 'react';
 import { loginRequest } from '../auth/auth.service';
 export const AuthContext = createContext();
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
-
 export const AuthContextProvider = ({ children }) => {
-
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);

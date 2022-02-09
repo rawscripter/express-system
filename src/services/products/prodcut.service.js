@@ -5,7 +5,7 @@ export const fetchProduct = async (barcode) => {
     const token = await AsyncStorage.getItem('token');
     return new Promise((resolve, reject) => {
         //send fetch request to server
-        fetch('http://127.0.0.1:8000/api/products/serach/' + barcode,
+        fetch('https://www.express-systems.net/api/products/serach/' + barcode,
             {
                 method: 'GET',
                 headers: {
