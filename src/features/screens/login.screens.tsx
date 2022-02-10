@@ -37,7 +37,6 @@ export const LoginScreen = () => {
     const { onLogin, isLoading, error } = useContext(AuthContext);
 
     const handleLogin = () => {
-
         onLogin({ email, password });
     }
 

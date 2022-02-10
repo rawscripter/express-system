@@ -58,7 +58,8 @@ export const ClockInOutContextProvider = ({ children }) => {
         setError(null);
         storeClockOut()
             .then(response => {
-                setClockInOut(response.data.data);
+                // setClockInOut(response.data.data);
+                checkInOut();
                 setIsLoading(false);
                 setIsClockOut(true);
             })

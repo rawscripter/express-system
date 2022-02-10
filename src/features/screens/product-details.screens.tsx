@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/spacer/spacer.component';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, ScrollView } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { Text } from '../../components/typography/text.component';
 import { useNavigation, useNavigationParam } from '@react-navigation/native'
@@ -16,13 +16,14 @@ const SafeContainer = styled(SafeAreaView)`
 const ProductCard = styled(Card)`
     margin-left: 16px;
     margin-right: 16px;
-  
     margin-bottom: 10px;
-`;
+ `;
 
 const ProductContent = styled(Card)`
-    padding: 16px;
-`;
+    padding: 12px; 
+    border-radius: 0px;
+ `;
+
 
 const Section = styled.View`
     flex-direction: row;
@@ -36,6 +37,10 @@ const LoadingView = styled(View)`
     align-items:center;
 `;
 
+const ScrollViewContainer = styled(ScrollView)`
+    flex:1;
+     marginHorizontal: 0px; 
+`;
 
 export const ProductDetailsScreen = ({ route }) => {
 
@@ -79,64 +84,64 @@ export const ProductDetailsScreen = ({ route }) => {
     return (
         <>
             <SafeContainer >
-                <Spacer size="large" />
-                <ProductCard>
-                    <Card.Cover source={{ uri: image }} />
+                <ScrollViewContainer >
+                    <Spacer size="large" />
+                    <ProductCard>
+                        <Card.Cover source={{ uri: image }} />
+                        <Spacer size="small" />
+                        <ProductContent>
+                            <Section>
+                                <View>
+                                    <Text variant="caption">{name}</Text>
+                                </View>
+                                {/* show price if its set */}
+                                {price && <Text variant="label" >{price}</Text>}
+                            </Section>
+                        </ProductContent>
+                    </ProductCard>
                     <Spacer size="small" />
-                    <ProductContent>
-                        <Section>
-                            <View>
-                                <Text>{name}</Text>
-                            </View>
-                            {/* show price if its set */}
-                            {price && <Text >{price}</Text>}
-                        </Section>
-                    </ProductContent>
-                </ProductCard>
-                <Spacer size="small" />
-                <ProductCard>
-                    <ProductContent>
-                        <Section>
-                            <Text>Availability</Text>
-                            <Text>{inStock ? 'In Stock' : 'Sold'}</Text>
-                        </Section>
-                    </ProductContent>
-                    <ProductContent>
-                        <Section>
-                            <Text>Model</Text>
-                            <Text>{model || '-'}</Text>
-                        </Section>
-                    </ProductContent>
+                    <ProductCard>
+                        <ProductContent>
+                            <Section>
+                                <Text variant="caption">Availability</Text>
+                                <Text variant="caption">{inStock ? 'In Stock' : 'Sold'}</Text>
+                            </Section>
+                        </ProductContent>
+                        <ProductContent>
+                            <Section>
+                                <Text variant="caption">Model</Text>
+                                <Text variant="caption">{model || '-'}</Text>
+                            </Section>
+                        </ProductContent>
 
-                    <ProductContent>
-                        <Section>
-                            <Text>Serial Number</Text>
-                            <Text>{systemNumber || '-'}</Text>
-                        </Section>
-                    </ProductContent>
+                        <ProductContent>
+                            <Section>
+                                <Text variant="caption">Serial Number</Text>
+                                <Text variant="caption">{systemNumber || '-'}</Text>
+                            </Section>
+                        </ProductContent>
 
-                    <ProductContent>
-                        <Section>
-                            <Text>Modality</Text>
-                            <Text>{modality || '-'}</Text>
-                        </Section>
-                    </ProductContent>
+                        <ProductContent>
+                            <Section>
+                                <Text variant="caption">Modality</Text>
+                                <Text variant="caption">{modality || '-'}</Text>
+                            </Section>
+                        </ProductContent>
 
-                    <ProductContent>
-                        <Section>
-                            <Text>Manufacturer</Text>
-                            <Text>{menufacturer || '-'}</Text>
-                        </Section>
-                    </ProductContent>
-
-                    <ProductContent>
-                        <Section>
-                            <Text>Date of menufactur</Text>
-                            <Text>{dateOfManufacture || '-'}</Text>
-                        </Section>
-                    </ProductContent>
-
-                </ProductCard>
+                        <ProductContent>
+                            <Section>
+                                <Text variant="caption">Manufacturer</Text>
+                                <Text variant="caption">{menufacturer || '-'}</Text>
+                            </Section>
+                        </ProductContent>
+                        <ProductContent>
+                            <Section>
+                                <Text variant="caption">Date of menufactur</Text>
+                                <Text variant="caption">{dateOfManufacture || '-'}</Text>
+                            </Section>
+                        </ProductContent>
+                    </ProductCard>
+                </ScrollViewContainer>
             </SafeContainer>
         </>
     );

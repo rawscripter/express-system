@@ -34,7 +34,7 @@ const SignInButton = styled(Button)`
 `;
 
 const GreetingView = styled(View)`
-            flex:.4;
+            flex:.6;
             justify-content:center;
             align-items:center;
             padding: 22px;
@@ -58,6 +58,7 @@ const QuoteText = styled(Text)`
 `
 
 const OfficeTimingView = styled(View)`
+            flex:.2;
             justify-content:center;
             align-items:center;
             text-align:center;

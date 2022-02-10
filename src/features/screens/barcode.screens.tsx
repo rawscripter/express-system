@@ -62,6 +62,7 @@ export const BarcodeScreen = ({ navigation }) => {
 
 
     const searchBarcodeQuery = () => {
+        setSearchQuery('');
         navigation.navigate('ProductDetails', { barcode: searchQuery });
     }
 
